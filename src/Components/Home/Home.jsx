@@ -5,8 +5,6 @@ import plusIcon from './../../ImgAndIcons/plus.svg';
 import TinyMce from '../../TinyMce/TinyMce';
 
 const Home = () => {
-
-
     const [inputData, setinputData] = useState('');
     const [allData, setallData] = useState([]);
 
@@ -33,7 +31,6 @@ const Home = () => {
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem("notes"));
         setallData(storedData)
-
        
     }, []);
 
@@ -78,6 +75,8 @@ const Home = () => {
         }
     }
 
+    
+
     return (
         <div>
             <section>
@@ -107,7 +106,7 @@ const Home = () => {
             allData !== null ?
             allData.map(note => {
                 return <>
-                        <div class="nav-link item" id="v-pills-tab1" data-bs-toggle="pill" data-bs-target={`#v-pills-content${note.id}`} type="button" role="tab" aria-controls="v-pills-content1" aria-selected="true">
+                        <div class="nav-link item" id={`v-pills-tab${note.id}`} data-bs-toggle="pill" data-bs-target={`#v-pills-content${note.id}`} type="button" role="tab" aria-controls="v-pills-content1" aria-selected="true">
                             <div class="overlay"></div>
                             <div class="title">
                                 <h4>{note.title}</h4>
@@ -138,12 +137,7 @@ const Home = () => {
                                 allData.map(note => {
                                     return <>
                                     <div class="tab-pane fade show active" id={`v-pills-content${note.id}`} role="tabpanel" aria-labelledby="v-pills-tab1">
-                                         <TinyMce></TinyMce>
-
-                                        <div className="buttonSection">
-                                            <button className='btn btn-sm btn-success'>Update</button>
-                                        </div>
-                                        
+                                         <TinyMce note_id={note.id} data={note.data}></TinyMce>
                                     </div>
                                     </>
 
