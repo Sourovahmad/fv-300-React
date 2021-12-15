@@ -1,38 +1,202 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+section {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
-.App-link {
-  color: #61dafb;
+section aside.sidebar {
+  -webkit-transition: 0.8s;
+  transition: 0.8s;
+  background: #000;
+  width: 20%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+section aside.sidebar .toggle-bar {
+  height: 14vh;
+  padding: 30px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  border-radius: 0px 0px 25px 0px;
+  width: 100px;
 }
+
+section aside.sidebar .toggle-bar:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+section aside.sidebar .toggle-bar img {
+  width: 100%;
+}
+
+section aside.sidebar .pages {
+  margin-top: 15px;
+}
+
+section aside.sidebar .pages ul li {
+  list-style: none;
+  padding: 1px 20px;
+  margin-bottom: 18px;
+}
+
+section aside.sidebar .pages ul li a {
+  text-decoration: none;
+  font-size: 30px;
+  color: #fff;
+  font-weight: 600;
+}
+
+section aside.sidebar .active-nav {
+  border-left: 5px solid #ffffff;
+}
+
+section aside.note-list {
+  -webkit-transition: 0.8s;
+  transition: 0.8s;
+  width: 31%;
+  border-right: 3px solid #000;
+  overflow: hidden;
+  height: 100vh;
+  position: relative;
+}
+
+section aside.note-list .top-part {
+  padding: 0px 45px;
+  height: 14vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+}
+
+section aside.note-list .top-part .search-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-bottom: 1px solid #000;
+  width: 100%;
+}
+
+section aside.note-list .top-part .search-box .icon {
+  width: 35px;
+  margin-top: 10px;
+  margin-right: 5px;
+}
+
+section aside.note-list .top-part .search-box .icon img {
+  width: 100%;
+}
+
+section aside.note-list .top-part .search-box .input input {
+  background: none;
+  border: none;
+  padding: 8px 0;
+  outline: none;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+section aside.note-list .items {
+  height: 86vh;
+  overflow: scroll;
+}
+
+section aside.note-list .items::-webkit-scrollbar {
+  display: none;
+}
+
+section aside.note-list .items .item {
+  width: 100%;
+  position: relative;
+  padding: 16px 45px;
+  border-radius: 0;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+section aside.note-list .items .item .overlay {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: -webkit-gradient(linear, left top, right top, color-stop(60%, transparent), to(#fff));
+  background: linear-gradient(to right, transparent 60%, #fff);
+}
+
+section aside.note-list .items .item .title {
+  margin-bottom: 20px;
+}
+
+section aside.note-list .items .item .title h4 {
+  font-weight: 700;
+  font-size: 26px;
+  color: #000;
+}
+
+section aside.note-list .items .item .desc p {
+  margin-bottom: 0;
+  font-size: 20px;
+  color: #585858;
+}
+
+section aside.note-list .items .active {
+  background: #000;
+  color: #fff;
+}
+
+section aside.note-list .items .active .title h4 {
+  color: #fff;
+}
+
+section aside.note-list .items .active .desc p {
+  color: #fff;
+}
+
+section aside.note-list .items .active .overlay {
+  background: -webkit-gradient(linear, left top, right top, color-stop(40%, transparent), to(black));
+  background: linear-gradient(to right, transparent 40%, black);
+}
+
+section aside.note-list button.add-note {
+  position: absolute;
+  width: 81px;
+  height: 81px;
+  border-radius: 50%;
+  border: none;
+  background: #000;
+  bottom: 47px;
+  right: 25px;
+}
+
+section aside.note-list button.add-note img {
+  width: 35px;
+}
+
+section aside.html-editor {
+  -webkit-transition: 0.8s;
+  transition: 0.8s;
+  width: 49%;
+}
+
+section .sidebar-width {
+  width: 8% !important;
+}
+
+section .tab-width {
+  width: 36% !important;
+}
+
+section .editor-width {
+  width: 56% !important;
+}
+/*# sourceMappingURL=style.css.map */
