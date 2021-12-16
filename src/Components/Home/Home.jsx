@@ -24,6 +24,9 @@ const Home = () => {
             htmlEditor.classList.toggle('editor-width');
         });
 
+
+        document.getElementsByClassName('tox-notification--warning').style.display = 'none';
+
     }, []);
 
 

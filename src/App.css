@@ -152,6 +152,7 @@ section aside.note-list .items .item .desc p {
 section aside.note-list .items .active {
   background: #000;
   color: #fff;
+  max-height: 122px;
 }
 
 section aside.note-list .items .active .title h4 {
