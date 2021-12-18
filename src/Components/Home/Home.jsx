@@ -6,7 +6,10 @@ import TinyMce from '../../TinyMce/TinyMce';
 
 const Home = () => {
     const [inputData, setinputData] = useState('');
+    const [directoryData, setdirectoryData] = useState('');
     const [allData, setallData] = useState([]);
+    const [allStoredData, setallStoredData] = useState([]);
+    const [allDirectories, setallDirectories] = useState([]);
 
 
     useEffect(() => {
@@ -25,7 +28,6 @@ const Home = () => {
         });
 
 
-        document.getElementsByClassName('tox-notification--warning').style.display = 'none';
 
     }, []);
 
@@ -33,50 +35,118 @@ const Home = () => {
 
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem("notes"));
-        setallData(storedData)
+        const allDirectories = JSON.parse(localStorage.getItem("directories"));
+        setallDirectories(allDirectories);
+        setallData(storedData);
+        setallStoredData(storedData)
        
     }, []);
 
 
     function dataSaveButton(){
 
-        const storedData = JSON.parse(localStorage.getItem("notes"));
+     
 
         if(inputData === ''){
             alert("please Add A Title")
         }else{
 
+            const storedData = JSON.parse(localStorage.getItem("notes"));
+
             if(storedData !== null){
                 const newArray = [];
                 const newId = storedData.length + 1;
-                const newData = {
-                    id:newId,
-                    title:inputData,
-                    data:inputData
+
+                const directoryId = parseInt(document.getElementById('directorySelector').value);
+                if(directoryId === ''){
+                    alert("Create A Directory First");
+                }else{
+                    const newData = {
+                        id:newId,
+                        title:inputData,
+                        data:inputData,
+                        directoryId:directoryId
+                    }
+                    newArray.push(newData);
+                    const doubleArray = [...storedData, ...newArray];
+                    localStorage.setItem('notes',JSON.stringify(doubleArray));
+                    setallData(doubleArray);
+                    setinputData('');
+                    document.getElementById('buttonModalClose').click();
                 }
-                newArray.push(newData);
-                const doubleArray = [...storedData, ...newArray];
-                localStorage.setItem('notes',JSON.stringify(doubleArray));
-                setallData(doubleArray);
-                setinputData('');
-                document.getElementById('buttonModalClose').click();
+
 
             }else{
                 const newArra = [];
-               const newData = {
-                   id:1,
-                   title:inputData,
-                   data:inputData
-               }
-               newArra.push(newData);
-               localStorage.setItem('notes',JSON.stringify(newArra));
-               console.log("data added successfully");
-               setallData(newArra);
-               setinputData('');
-               document.getElementById('buttonModalClose').click();
+                const directoryId =parseInt(document.getElementById('directorySelector').value);
+                if(directoryId === ''){
+                    alert("Create A Directory First");
+                }else{
+                    const newData = {
+                        id:1,
+                        title:inputData,
+                        data:inputData,
+                        directoryId:directoryId
+                    }
+                    newArra.push(newData);
+                    localStorage.setItem('notes',JSON.stringify(newArra));
+                    console.log("data added successfully");
+                    setallData(newArra);
+                    setinputData('');
+                    document.getElementById('buttonModalClose').click();
+                }
+                
+
             }
         }
     }
+
+
+    function DirectorySaveButton(){
+
+        if(directoryData === ''){
+            alert("Please Add Directory Title")
+        }else {
+            const storedDirectories = JSON.parse(localStorage.getItem("directories"));
+
+            if(storedDirectories !== null){
+                const newArray = [];
+                const newId = storedDirectories.length + 1;
+                const newData = {
+                    id:newId,
+                    title:directoryData,
+                }
+
+                newArray.push(newData);
+                const doubleArray = [...storedDirectories, ...newArray];
+                localStorage.setItem('directories',JSON.stringify(doubleArray));
+                setallDirectories(doubleArray);
+                setdirectoryData('');
+                document.getElementById('directoryModalClose').click();
+
+            }else{
+
+                const newArra = [];
+                const newData = {
+                    id:1,
+                    title:directoryData,
+                }
+                newArra.push(newData);
+                localStorage.setItem('directories',JSON.stringify(newArra));
+                setallDirectories(newArra);
+                setdirectoryData('');
+                document.getElementById('directoryModalClose').click();
+            }
+        }
+    }
+
+
+    function directoryChanger(directory_id){
+    const filterdNotes = allStoredData.filter(note => note.directoryId === directory_id);
+    setallData(filterdNotes);
+    }
+
+
 
     
 
@@ -88,12 +158,17 @@ const Home = () => {
                 <div class="icon" style={{ color:"#fff" }}>
                     <img src={menuIcon} alt="" />
                 </div>
+
+
             </div>
             <div class="pages d-none">
                 <ul>
-                    <li class="active-nav"><a href="">Personal Notes</a></li>
-                    <li><a href="">Work</a></li>
-                    <li><a href="">Misc.</a></li>
+                    {
+                      allDirectories !== null ?  allDirectories.map(d => <li className='active-nav' onClick={()=> directoryChanger(d.id)}>{d.title} </li>  ) : ''
+                    }
+                    <li><div className="plusIcon">
+                    <span style={{ fontSize:'55px', color:'#fff', cursor:'pointer' }} data-bs-toggle="modal" data-bs-target="#addDirectory"> + </span>
+                </div> </li>
                 </ul>
             </div>
         </aside>
@@ -128,7 +203,7 @@ const Home = () => {
 
               </div>
 
-              <button class="add-note" data-bs-toggle="modal" data-bs-target="#addModal" ><img src={plusIcon} alt="" /></button>
+              <button class="add-note" onClick={()=> allDirectories !== null ?  allDirectories.length <=0 ? alert("Add Directory First") : '' : ''} data-bs-toggle="modal" data-bs-target="#addModal" ><img src={plusIcon} alt="" /></button>
         </aside>
 
     
@@ -161,7 +236,7 @@ const Home = () => {
 
 
 
-        <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
@@ -169,16 +244,51 @@ const Home = () => {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" id='buttonModalClose' aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <label htmlFor="noteName">Note Title </label>
-                <input type="text" className='form-control' id='noteName' value={inputData} onChange={(e)=> setinputData(e.target.value)}  />
+                <div className="mb-3">
+                    <label htmlFor="noteName">Note Title </label>
+                    <input type="text" className='form-control' id='noteName' value={inputData} onChange={(e)=> setinputData(e.target.value)}  />
+                </div>
+
+                <div className="mb-3">
+                     <label htmlFor="directory">Chose Directory</label>
+                     <select id="directorySelector" className='form-control'>
+                         {
+                              allDirectories !== null ? allDirectories.map(d => <option value={d.id}>{d.title}</option>) : ''
+                         }
+                     </select>
+                </div>
+
             </div> 
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary"onClick={()=> dataSaveButton()} >Save</button>
             </div>
             </div>
         </div>
+    </div>
+
+
+
+    {/* Directory modal  */}
+    <div class="modal fade" id="addDirectory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Directory</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" id='directoryModalClose' aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label htmlFor="directoryName">Directory Title </label>
+                <input type="text" className='form-control' id='directoryName' value={directoryData} onChange={(e)=> setdirectoryData(e.target.value)}  />
+            </div> 
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onClick={()=> DirectorySaveButton()} >Save</button>
+            </div>
+            </div>
         </div>
+    </div>
 
 
 

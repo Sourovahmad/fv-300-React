@@ -1,26 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {  useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
 const TinyMce = ({note_id,data}) => {
 
     const editorRef = useRef(null);
-    const log = () => {
-      if (editorRef.current) {
-        console.log(editorRef.current.getContent());
-      }
-    };
-
     const [allData, setAllData] = useState([]);
-    const [currentData, setcurrentData] = useState({});
 
-    useEffect(() => {
-      const storedData = JSON.parse(localStorage.getItem("notes"));
-      setAllData(storedData);
-
-      const currentData = allData.find(note => note.id === note_id);
-      setcurrentData(currentData)
-
-    }, []);
 
     function handleEditorChange(e){
 
@@ -47,11 +32,11 @@ const TinyMce = ({note_id,data}) => {
     return (
       <div>
         <Editor
-          apiKey="67cbhn71y33yyvpc0uc6dlfh6vnkxlitml49fb6eifdjqt4y"
+        apiKey="67cbhn71y33yyvpc0uc6dlfh6vnkxlitml49fb6eifdjqt4y"
          onInit={(evt, editor) => editorRef.current = editor}
          initialValue={data}
          init={{
-           height: 500,
+           height: '100vh',
            menubar: true,
            plugins: [
              'advlist autolink lists link image charmap print preview anchor',

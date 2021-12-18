@@ -45,11 +45,12 @@ section aside.sidebar .pages ul li {
   margin-bottom: 18px;
 }
 
-section aside.sidebar .pages ul li a {
+section aside.sidebar .pages ul li  {
   text-decoration: none;
   font-size: 30px;
   color: #fff;
   font-weight: 600;
+  cursor: pointer;
 }
 
 section aside.sidebar .active-nav {
