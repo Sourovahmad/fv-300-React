@@ -1,8 +1,8 @@
 import React, { useEffect, useState  } from 'react';
 import menuIcon from '../../ImgAndIcons/menu.svg';
-import SearchSection from './SearchSection';
 import plusIcon from './../../ImgAndIcons/plus.svg';
 import TinyMce from '../../TinyMce/TinyMce';
+import glassIcon from '../../ImgAndIcons/magnifying-glass.png';
 
 const Home = () => {
     const [inputData, setinputData] = useState('');
@@ -11,6 +11,7 @@ const Home = () => {
     const [allStoredData, setallStoredData] = useState([]);
     const [allDirectories, setallDirectories] = useState([]);
     const [currentSelectedNote, setcurrentSelectedNote] = useState({});
+    const [queryValue ,setQueryvalaue] = useState("")
 
 
     useEffect(() => {
@@ -157,7 +158,16 @@ const Home = () => {
         setcurrentSelectedNote(note);
     }
 
-    
+    // function searchHandle(value){
+
+    //     allStoredData.filter(note => {
+    //         if (value === "") {
+    //           setallData(allStoredData);
+    //         } else if (note.title.toLowerCase().includes(value.toLowerCase())) {
+    //             console.log(note);
+    //         }
+    //       });
+    // }
 
 
 
@@ -189,13 +199,30 @@ const Home = () => {
 
         <aside class="note-list tab-width">
 
-        <SearchSection></SearchSection>
+                <div class="top-part">
+                    <div class="search-box">
+                    <div class="icon">
+                        <img src={glassIcon} alt="" />
+                    </div>
+                    <div class="input">
+                        <input type="text" onChange={(e)=>setQueryvalaue(e.target.value)} placeholder="Search Notes" />
+                    </div>
+                    </div>
+                </div>
 
             <div class="nav items nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
         {
             allData !== null ?
-            allData.map(note => {
+
+
+            allData.filter(note => {
+                if (queryValue === '') {
+                  return note;
+                } else if (note.title.toLowerCase().includes(queryValue.toLowerCase())) {
+                  return note;
+                }
+              }).map(note => {
                 return <>
                         <div class="nav-link item"  onClick={()=>noteChangeHadler(note.id)} id={`v-pills-tab${note.id}`} data-bs-toggle="pill"  type="button" role="tab"  aria-selected="true">
                             <div class="overlay"></div>
