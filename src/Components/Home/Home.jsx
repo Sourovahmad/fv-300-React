@@ -214,8 +214,6 @@ const Home = () => {
 
         {
             allData !== null ?
-
-
             allData.filter(note => {
                 if (queryValue === '') {
                   return note;
@@ -252,8 +250,9 @@ const Home = () => {
                             
                             <div class="tab-pane fade show active" id="v-pills-content-all" role="tabpanel" aria-labelledby="v-pills-tab-1">
                                    {
-                                       currentSelectedNote === '' ? <TinyMce/> :
+                                       currentSelectedNote !== '' ? 
                                        <TinyMce note_id={currentSelectedNote.id} data={currentSelectedNote.data}/>
+                                       : ""
                                    }
                                  </div>
                             </div>
