@@ -10,6 +10,7 @@ const Home = () => {
     const [allData, setallData] = useState([]);
     const [allStoredData, setallStoredData] = useState([]);
     const [allDirectories, setallDirectories] = useState([]);
+    const [currentSelectedNote, setcurrentSelectedNote] = useState({});
 
 
     useEffect(() => {
@@ -45,7 +46,10 @@ const Home = () => {
 
     function dataSaveButton(){
 
-     
+        document.addEventListener("DOMContentLoaded", function(event) { 
+          const box =  document.getElementsByClassName('tox-statusbar')
+            console.log(box);
+          });
 
         if(inputData === ''){
             alert("please Add A Title")
@@ -142,9 +146,18 @@ const Home = () => {
 
 
     function directoryChanger(directory_id){
-    const filterdNotes = allStoredData.filter(note => note.directoryId === directory_id);
-    setallData(filterdNotes);
+        const filterdNotes = allStoredData.filter(note => note.directoryId === directory_id);
+        // document.getElementById(`li-${directory_id}`).classList.add('active-nav');
+        setallData(filterdNotes);
+
     }
+
+    function noteChangeHadler(note_id){
+        const note = allStoredData.find(note => note.id === note_id);
+        setcurrentSelectedNote(note);
+    }
+
+    
 
 
 
@@ -164,7 +177,7 @@ const Home = () => {
             <div class="pages d-none">
                 <ul>
                     {
-                      allDirectories !== null ?  allDirectories.map(d => <li className='active-nav' onClick={()=> directoryChanger(d.id)}>{d.title} </li>  ) : ''
+                      allDirectories !== null ?  allDirectories.map(d => <li id={`li-${d.id}`} onClick={()=> directoryChanger(d.id)}>{d.title} </li>  ) : ''
                     }
                     <li><div className="plusIcon">
                     <span style={{ fontSize:'55px', color:'#fff', cursor:'pointer' }} data-bs-toggle="modal" data-bs-target="#addDirectory"> + </span>
@@ -184,7 +197,7 @@ const Home = () => {
             allData !== null ?
             allData.map(note => {
                 return <>
-                        <div class="nav-link item" id={`v-pills-tab${note.id}`} data-bs-toggle="pill" data-bs-target={`#v-pills-content${note.id}`} type="button" role="tab" aria-controls="v-pills-content1" aria-selected="true">
+                        <div class="nav-link item"  onClick={()=>noteChangeHadler(note.id)} id={`v-pills-tab${note.id}`} data-bs-toggle="pill"  type="button" role="tab"  aria-selected="true">
                             <div class="overlay"></div>
                             <div class="title">
                                 <h4>{note.title}</h4>
@@ -209,21 +222,13 @@ const Home = () => {
     
                     <aside class="html-editor editor-width">
                         <div class="tab-content" id="v-pills-tabContent">
-                            {
-                                allData !== null ?
-                                
-                                allData.map(note => {
-                                    return <>
-                                    <div class="tab-pane fade show active" id={`v-pills-content${note.id}`} role="tabpanel" aria-labelledby="v-pills-tab1">
-                                         <TinyMce note_id={note.id} data={note.data}></TinyMce>
-                                    </div>
-                                    </>
-
-                                })
-
-                                :
-                                ''
-                            }
+                            
+                            <div class="tab-pane fade show active" id="v-pills-content-all" role="tabpanel" aria-labelledby="v-pills-tab-1">
+                                   {
+                                       currentSelectedNote === '' ? <TinyMce/> :
+                                       <TinyMce note_id={currentSelectedNote.id} data={currentSelectedNote.data}/>
+                                   }
+                                 </div>
                             </div>
                     </aside>
           
